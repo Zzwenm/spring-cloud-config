@@ -1,0 +1,30 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能，利用微服务进行路由
+      routes:
+        - id: client-test
+          uri: http://localhost:8080
+#          uri: lb://eureka-client    #匹配提供服务的路由地址
+          predicates:
+            - Path=/**
+#        - id: client_routh2
+#          uri: http://localhost:8001
+#          uri: lb://eureka-client
+#          predicates:
+#            - Path=/dictionary/lb/**
+#            - After=2020-03-18T18:55:03.917+08:00[GMT+08:00]
+#            - Cookie=username,xyz
+#            - Header=token,abc
+#注册进eureka，默认true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

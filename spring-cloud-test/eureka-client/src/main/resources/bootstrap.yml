@@ -1,0 +1,61 @@
+server:
+  port: 8762
+spring:
+  application:
+    name: eureka-client
+  datasource:
+    url: jdbc:mysql://localhost:3306/userdemo?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+  cache:
+    type: redis
+  redis:
+    database: 0
+    url: redis://user:@127.0.0.1:6379
+    host: 127.0.0.1
+    password: test123
+    port: 6379
+    ssl: false
+    timeout: 5000
+  cloud:
+    #config客户端配置
+    config:
+      label: master #分支
+      name: config  #配置文件名称
+      profile: dev  #配置文件后缀名称
+      uri: http://localhost:3344 #配置中心地址
+      #以上 为 从http://localhost:3344 master分支读取config-dev.yml配置文件
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.boss.learning.entity
+logging:
+  level:
+    com:
+      boss:
+        learning:
+          mapper: DEBUG
+
+#注册进eureka，默认true
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20 #向服务端发送心跳间隔时间（默认30s）
+  client:
+    register-with-eureka: true
+    fetch-registry: true #默认true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+#暴露监控端口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
